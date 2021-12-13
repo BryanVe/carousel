@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import styled from 'styled-components'
 import { Course } from 'types'
 
@@ -30,15 +29,15 @@ export const colors = [
 ]
 
 interface StyledWrapperProps {
-  index: number
+  color: string
 }
 
-interface CarouselItemContentProps extends StyledWrapperProps {
-  data: Course
+interface CarouselItemContentProps<T> {
+  data: T | Course
 }
 
 const StyledWrapper = styled.div<StyledWrapperProps>`
-  background-color: ${(props) => colors[props.index % colors.length]};
+  background-color: ${(props) => props.color};
   height: inherit;
   border-radius: 12px;
   transition: transform 0.1s ease-out;
@@ -46,7 +45,7 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   box-sizing: border-box;
 
   /* -- temporal styles -- */
-  font-size: 70px;
+  font-size: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,12 +57,12 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   }
 `
 
-const CarouselItemContent: FC<CarouselItemContentProps> = (props) => {
-  const { index } = props
+function CarouselItemContent<T>(props: CarouselItemContentProps<T>) {
+  const { data } = props
 
   return (
-    <StyledWrapper index={index}>
-      {index + 1}
+    <StyledWrapper color={(data as Course).color || '#FFF'}>
+      {(data as Course).name}
       {/* <img
         alt={data.name}
         src={data.image}

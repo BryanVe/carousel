@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const CarouselItem = styled.div`
+const CarouselWithItem = styled.div`
   display: inline-block;
   height: 100%;
   padding-right: 12px;
@@ -9,4 +9,4 @@ const CarouselItem = styled.div`
   cursor: pointer;
 `
 
-export default CarouselItem
+export default CarouselWithItem
