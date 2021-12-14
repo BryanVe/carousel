@@ -1,10 +1,9 @@
 import { GetCarouselWidth, GetOverlappedData } from 'types'
-import { visibleColumnsByScreenSize } from '.'
 
-export const getCarouselWidth: GetCarouselWidth = (columns, visibleColumns) =>
-  100 * (columns / visibleColumns)
+export const getCarouselWidth: GetCarouselWidth = (columns, viewableColumns) =>
+  100 * (columns / viewableColumns)
 
-export const getOverlappedData: GetOverlappedData = (data) =>
-  new Array(data.length - visibleColumnsByScreenSize.xl)
+export const getOverlappedData: GetOverlappedData = (data, viewableItems) =>
+  new Array(data.length - viewableItems.xl)
     .fill(undefined)
-    .concat(data.slice(0, visibleColumnsByScreenSize.xl))
+    .concat(data.slice(0, viewableItems.xl))

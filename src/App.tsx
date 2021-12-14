@@ -1,5 +1,5 @@
 import { Carousel } from 'components'
-import { Course } from 'types'
+import { Course, ViewableItemsByBreakpoint } from 'types'
 
 const courses: Course[] = [
   { name: 'JavaScript', color: '#FFA940' },
@@ -14,6 +14,18 @@ const courses: Course[] = [
   { name: 'CSS', color: '#FFE58F' },
 ]
 
-const App = () => <Carousel<Course> data={courses} />
+const viewableItemsByBreakpoint: ViewableItemsByBreakpoint = {
+  xl: 7,
+  lg: 5,
+  md: 3,
+  sm: 2,
+}
+
+const App = () => (
+  <Carousel<Course>
+    data={courses}
+    viewableItemsByBreakpoint={viewableItemsByBreakpoint}
+  />
+)
 
 export default App
