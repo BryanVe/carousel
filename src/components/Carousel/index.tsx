@@ -1,12 +1,22 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
-import { CarouselItemContent, CarouselWithItem, CarouselWithoutItem } from '..'
+import { CarouselWithItem, CarouselWithoutItem } from '..'
 import { getCarouselWidth, getOverlappedData } from 'utils'
 
 import { ViewableItemsByBreakpoint } from 'types'
 
 const MainWrapper = styled.div`
   overflow-x: hidden;
+
+  &:hover .sub-carousel {
+    animation-play-state: paused;
+  }
+
+  & .overlapped-carousel {
+    margin-left: 100vw;
+    z-index: -1;
+  }
 `
 
 interface StyledWrapperProps {
@@ -17,14 +27,13 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   position: absolute;
   width: ${(props) =>
     `${getCarouselWidth(props.columns, props.viewableItemsByBreakpoint.xl)}%`};
-  height: 20vw;
   margin: 24px 0;
   display: grid;
   grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
   /* animation: ${(props) =>
     `left-to-right ${props.columns * 4}s linear infinite`}; */
   animation: ${(props) =>
-    `right-to-left ${props.columns * 3}s linear infinite`};
+    `right-to-left ${props.columns * 2}s linear infinite`};
 
   @keyframes left-to-right {
     from {
@@ -130,39 +139,41 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
     }
   } */
 `
-
-interface CarouselProps<T> {
-  data: T[]
+interface CarouselProps<I> {
   viewableItemsByBreakpoint: ViewableItemsByBreakpoint
+  height?: string
+  data: I[]
+  render: (data: I) => ReactNode
 }
 
-function Carousel<T>(props: CarouselProps<T>) {
-  const { data, viewableItemsByBreakpoint } = props
+function Carousel<I>(props: CarouselProps<I>) {
+  const { data, viewableItemsByBreakpoint, render } = props
 
   return (
     <MainWrapper>
       <StyledWrapper
+        className='sub-carousel'
         columns={data.length}
         viewableItemsByBreakpoint={viewableItemsByBreakpoint}
       >
-        {data.map((element, index) => (
+        {data.map((item, index) => (
           <CarouselWithItem key={`carousel-item-${index}`}>
-            <CarouselItemContent<T> data={element} />
+            {render(item)}
           </CarouselWithItem>
         ))}
       </StyledWrapper>
       <StyledWrapper
+        className='sub-carousel overlapped-carousel'
         columns={data.length}
         viewableItemsByBreakpoint={viewableItemsByBreakpoint}
-        style={{ marginLeft: '100vw', zIndex: -1 }}
       >
-        {getOverlappedData<T>(data, viewableItemsByBreakpoint).map(
-          (element, index) =>
-            !element ? (
+        {getOverlappedData<I>(data, viewableItemsByBreakpoint).map(
+          (item: I | undefined, index) =>
+            !item ? (
               <CarouselWithoutItem key={`carousel-item-${index}`} />
             ) : (
               <CarouselWithItem key={`carousel-item-${index}`}>
-                <CarouselItemContent<T> data={element} />
+                {render(item)}
               </CarouselWithItem>
             )
         )}

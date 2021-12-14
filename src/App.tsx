@@ -1,4 +1,5 @@
-import { Carousel } from 'components'
+import styled from 'styled-components'
+import { Carousel, CarouselItemContent } from 'components'
 import { Course, ViewableItemsByBreakpoint } from 'types'
 
 const courses: Course[] = [
@@ -8,23 +9,43 @@ const courses: Course[] = [
   { name: 'C/C++', color: '#FFC53D' },
   { name: 'Python', color: '#597EF7' },
   { name: 'Rust', color: '#9254DE' },
-  { name: 'Scala', color: '#F759AB' },
-  { name: 'Java', color: '#FFBB96' },
-  { name: 'HTML', color: '#FFD591' },
-  { name: 'CSS', color: '#FFE58F' },
+  // { name: 'Scala', color: '#F759AB' },
+  // { name: 'Java', color: '#FFBB96' },
+  // { name: 'HTML', color: '#FFD591' },
+  // { name: 'CSS', color: '#FFE58F' },
 ]
 
 const viewableItemsByBreakpoint: ViewableItemsByBreakpoint = {
-  xl: 7,
+  xl: 6,
   lg: 5,
   md: 3,
   sm: 2,
 }
 
+interface CustomCardProps {
+  color: string
+}
+
+const CustomCard = styled(CarouselItemContent)<CustomCardProps>`
+  /* -- my styles -- */
+  background-color: ${(props) => props.color};
+  height: 400px;
+  border-radius: 12px;
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2a2a2a;
+  /* --------------- */
+`
+
 const App = () => (
   <Carousel<Course>
     data={courses}
     viewableItemsByBreakpoint={viewableItemsByBreakpoint}
+    render={(data) => <CustomCard color={data.color}>{data.name}</CustomCard>}
   />
 )
 
