@@ -1,45 +1,48 @@
-import { ReactNode } from 'react'
+import { ReactNode, CSSProperties } from 'react'
 import styled from 'styled-components'
 
 import { CarouselWithItem, CarouselWithoutItem } from '..'
 import { getCarouselWidth, getOverlappedData } from 'utils'
 
 const MainWrapper = styled.div`
-  overflow-x: hidden;
+  position: relative;
 
   &:hover .sub-carousel {
     animation-play-state: paused;
   }
 
   & .overlapped-carousel {
+    position: absolute;
+    top: 0;
     margin-left: 100vw;
-    z-index: -1;
   }
 `
 
 interface StyledWrapperProps {
+  reverse: boolean
   columns: number
   viewableItemsByBreakpoint: ViewableItemsByBreakpoint
 }
 const StyledWrapper = styled.div<StyledWrapperProps>`
   --width: ${(props) =>
     `${getCarouselWidth(props.columns, props.viewableItemsByBreakpoint.xl)}%`};
-  position: absolute;
+  position: relative;
   width: var(--width);
-  margin: 24px 0;
   display: grid;
   grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
   /* animation: ${(props) =>
     `left-to-right ${props.columns * 4}s linear infinite`}; */
   animation: ${(props) =>
-    `right-to-left ${props.columns * 3}s linear infinite`};
+    `${props.reverse ? 'left-to-right' : 'right-to-left'} ${
+      props.columns * 1
+    }s linear infinite`};
 
   @keyframes left-to-right {
     from {
       left: calc(-1 * var(--width));
     }
     to {
-      left: 100%;
+      left: 0%;
     }
   }
 
@@ -132,17 +135,26 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
 `
 
 interface CarouselProps<I extends GenericWithKey> {
+  reverse?: boolean
   viewableItemsByBreakpoint: ViewableItemsByBreakpoint
   data: I[]
   render: (data: I) => ReactNode
+  style?: CSSProperties
 }
 
 const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
-  const { data, viewableItemsByBreakpoint, render } = props
+  const {
+    reverse = false,
+    data,
+    viewableItemsByBreakpoint,
+    render,
+    style = {},
+  } = props
 
   return (
-    <MainWrapper>
+    <MainWrapper style={style}>
       <StyledWrapper
+        reverse={reverse}
         className='sub-carousel'
         columns={data.length}
         viewableItemsByBreakpoint={viewableItemsByBreakpoint}
@@ -152,6 +164,7 @@ const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
         ))}
       </StyledWrapper>
       <StyledWrapper
+        reverse={reverse}
         className='sub-carousel overlapped-carousel'
         columns={data.length}
         viewableItemsByBreakpoint={viewableItemsByBreakpoint}

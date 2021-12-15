@@ -42,6 +42,8 @@ const CustomCard = styled(CarouselItemContent)<CustomCardProps>`
 
 const App = () => (
   <Carousel
+    style={{ margin: '24px 0' }}
+    reverse
     data={courses}
     viewableItemsByBreakpoint={viewableItemsByBreakpoint}
     render={(data) => <CustomCard color={data.color}>{data.name}</CustomCard>}
