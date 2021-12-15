@@ -20,6 +20,7 @@ const MainWrapper = styled.div`
 
 interface StyledWrapperProps {
   reverse: boolean
+  duration: number
   columns: number
   viewableItemsByBreakpoint: ViewableItemsByBreakpoint
 }
@@ -34,7 +35,7 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
     `left-to-right ${props.columns * 4}s linear infinite`}; */
   animation: ${(props) =>
     `${props.reverse ? 'left-to-right' : 'right-to-left'} ${
-      props.columns * 1
+      props.duration
     }s linear infinite`};
 
   @keyframes left-to-right {
@@ -136,6 +137,7 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
 
 interface CarouselProps<I extends GenericWithKey> {
   reverse?: boolean
+  duration?: number
   viewableItemsByBreakpoint: ViewableItemsByBreakpoint
   data: I[]
   render: (data: I) => ReactNode
@@ -145,16 +147,18 @@ interface CarouselProps<I extends GenericWithKey> {
 const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
   const {
     reverse = false,
+    duration = 10,
+    style = {},
     data,
     viewableItemsByBreakpoint,
     render,
-    style = {},
   } = props
 
   return (
     <MainWrapper style={style}>
       <StyledWrapper
         reverse={reverse}
+        duration={duration}
         className='sub-carousel'
         columns={data.length}
         viewableItemsByBreakpoint={viewableItemsByBreakpoint}
@@ -165,6 +169,7 @@ const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
       </StyledWrapper>
       <StyledWrapper
         reverse={reverse}
+        duration={duration}
         className='sub-carousel overlapped-carousel'
         columns={data.length}
         viewableItemsByBreakpoint={viewableItemsByBreakpoint}

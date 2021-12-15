@@ -44,6 +44,7 @@ const App = () => (
   <Carousel
     style={{ margin: '24px 0' }}
     reverse
+    duration={30}
     data={courses}
     viewableItemsByBreakpoint={viewableItemsByBreakpoint}
     render={(data) => <CustomCard color={data.color}>{data.name}</CustomCard>}
