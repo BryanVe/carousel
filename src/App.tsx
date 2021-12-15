@@ -1,14 +1,13 @@
 import styled from 'styled-components'
 import { Carousel, CarouselItemContent } from 'components'
-import { Course, ViewableItemsByBreakpoint } from 'types'
 
 const courses: Course[] = [
-  { name: 'JavaScript', color: '#FFA940' },
-  { name: 'TypeScript', color: '#73D13D' },
-  { name: 'Go', color: '#36CFC9' },
-  { name: 'C/C++', color: '#FFC53D' },
-  { name: 'Python', color: '#597EF7' },
-  { name: 'Rust', color: '#9254DE' },
+  { key: 'JavaScript', name: 'JavaScript', color: '#FFA940' },
+  { key: 'TypeScript', name: 'TypeScript', color: '#73D13D' },
+  { key: 'Go', name: 'Go', color: '#36CFC9' },
+  { key: 'C/C++', name: 'C/C++', color: '#FFC53D' },
+  { key: 'Python', name: 'Python', color: '#597EF7' },
+  { key: 'Rust', name: 'Rust', color: '#9254DE' },
   // { name: 'Scala', color: '#F759AB' },
   // { name: 'Java', color: '#FFBB96' },
   // { name: 'HTML', color: '#FFD591' },
@@ -42,7 +41,7 @@ const CustomCard = styled(CarouselItemContent)<CustomCardProps>`
 `
 
 const App = () => (
-  <Carousel<Course>
+  <Carousel
     data={courses}
     viewableItemsByBreakpoint={viewableItemsByBreakpoint}
     render={(data) => <CustomCard color={data.color}>{data.name}</CustomCard>}
