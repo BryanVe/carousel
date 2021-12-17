@@ -15,6 +15,7 @@ const MainWrapper = styled.div`
     position: absolute;
     top: 0;
     margin-left: 100vw;
+    z-index: 0;
   }
 `
 
@@ -30,6 +31,7 @@ const StyledWrapper = styled.div<StyledWrapperProps>`
   position: relative;
   width: var(--width);
   display: grid;
+  z-index: 300;
   grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
   /* animation: ${(props) =>
     `left-to-right ${props.columns * 4}s linear infinite`}; */
@@ -174,13 +176,12 @@ const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
         columns={data.length}
         viewableItemsByBreakpoint={viewableItemsByBreakpoint}
       >
-        {getOverlappedData<I>(data, viewableItemsByBreakpoint).map(
-          (item, index) =>
-            Object.keys(item).length > 1 ? (
-              <CarouselWithItem key={item.key}>{render(item)}</CarouselWithItem>
-            ) : (
-              <CarouselWithoutItem key={item.key} />
-            )
+        {getOverlappedData<I>(data, viewableItemsByBreakpoint).map((item) =>
+          item._render ? (
+            <CarouselWithItem key={item.key}>{render(item)}</CarouselWithItem>
+          ) : (
+            <CarouselWithoutItem key={item.key} />
+          )
         )}
       </StyledWrapper>
     </MainWrapper>

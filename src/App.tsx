@@ -8,10 +8,10 @@ const courses: Course[] = [
   { key: 'C/C++', name: 'C/C++', color: '#FFC53D' },
   { key: 'Python', name: 'Python', color: '#597EF7' },
   { key: 'Rust', name: 'Rust', color: '#9254DE' },
-  // { name: 'Scala', color: '#F759AB' },
-  // { name: 'Java', color: '#FFBB96' },
-  // { name: 'HTML', color: '#FFD591' },
-  // { name: 'CSS', color: '#FFE58F' },
+  { key: 'Scala', name: 'Scala', color: '#F759AB' },
+  { key: 'Java', name: 'Java', color: '#FFBB96' },
+  { key: 'HTML', name: 'HTML', color: '#FFD591' },
+  { key: 'CSS', name: 'CSS', color: '#FFE58F' },
 ]
 
 const viewableItemsByBreakpoint: ViewableItemsByBreakpoint = {
@@ -43,7 +43,6 @@ const CustomCard = styled(CarouselItemContent)<CustomCardProps>`
 const App = () => (
   <Carousel
     style={{ margin: '24px 0' }}
-    reverse
     duration={30}
     data={courses}
     viewableItemsByBreakpoint={viewableItemsByBreakpoint}

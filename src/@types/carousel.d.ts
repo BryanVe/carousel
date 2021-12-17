@@ -2,6 +2,7 @@ type Breakpoints = 'sm' | 'md' | 'lg' | 'xl'
 
 interface GenericWithKey {
   key: string
+  _render?: boolean
 }
 
 interface Course {
