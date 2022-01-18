@@ -1,34 +1,26 @@
 import styled from 'styled-components'
 import { Carousel, CarouselItemContent } from 'components'
 
-const courses: Course[] = [
-  { key: 'JavaScript', name: 'JavaScript', color: '#FFA940' },
-  { key: 'TypeScript', name: 'TypeScript', color: '#73D13D' },
-  { key: 'Go', name: 'Go', color: '#36CFC9' },
-  { key: 'C/C++', name: 'C/C++', color: '#FFC53D' },
-  { key: 'Python', name: 'Python', color: '#597EF7' },
-  { key: 'Rust', name: 'Rust', color: '#9254DE' },
-  { key: 'Scala', name: 'Scala', color: '#F759AB' },
-  { key: 'Java', name: 'Java', color: '#FFBB96' },
-  { key: 'HTML', name: 'HTML', color: '#FFD591' },
-  { key: 'CSS', name: 'CSS', color: '#FFE58F' },
-]
-
-const viewableItemsByBreakpoint: ViewableItemsByBreakpoint = {
-  xl: 6,
-  lg: 5,
-  md: 3,
-  sm: 2,
-}
-
-interface CustomCardProps {
+interface Course extends GenericWithKey {
+  name: string
   color: string
 }
 
-const CustomCard = styled(CarouselItemContent)<CustomCardProps>`
+const courses: Course[] = [
+  { key: '1', name: '1', color: '#FFA940' },
+  { key: '2', name: '2', color: '#73D13D' },
+  { key: '3', name: '3', color: '#36CFC9' },
+  { key: '4', name: '4', color: '#FFC53D' },
+  { key: '5', name: '5', color: '#597EF7' },
+  { key: '6', name: '6', color: '#9254DE' },
+  { key: '7', name: '7', color: '#F759AB' },
+  { key: '8', name: '8', color: '#A1A1AA' },
+]
+
+const CustomCard = styled(CarouselItemContent)`
   /* -- my styles -- */
   background-color: ${(props) => props.color};
-  height: 400px;
+  height: 10vw;
   border-radius: 12px;
   padding: 5px;
   box-sizing: border-box;
@@ -43,9 +35,7 @@ const CustomCard = styled(CarouselItemContent)<CustomCardProps>`
 const App = () => (
   <Carousel
     style={{ margin: '24px 0' }}
-    duration={30}
     data={courses}
-    viewableItemsByBreakpoint={viewableItemsByBreakpoint}
     render={(data) => <CustomCard color={data.color}>{data.name}</CustomCard>}
   />
 )

@@ -1,23 +1,27 @@
-type Breakpoints = 'sm' | 'md' | 'lg' | 'xl'
+type BreakpointsIDs = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 interface GenericWithKey {
   key: string
-  _render?: boolean
 }
 
-interface Course {
-  key: string
-  name: string
-  color: string
+interface Dimensions {
+  width: number
+  height: number
 }
 
-type ViewableItemsByBreakpoint = {
-  [breakpoint in Breakpoints]: number
+type ViewableItems = {
+  [breakpointID in BreakpointsIDs]: number
+}
+
+type Breakpoints = {
+  [breakpointID in BreakpointsIDs]: number
 }
 
 type GetCarouselWidth = (columns: number, viewableItems: number) => number
 
-type GetOverlappedData = <T extends GenericWithKey>(
+type GetViewableData = <T>(
   data: T[],
-  viewableItems: ViewableItemsByBreakpoint
+  currentDimensions: Dimensions,
+  viewableItems: ViewableItems,
+  breakpoints: Breakpoints
 ) => T[]
