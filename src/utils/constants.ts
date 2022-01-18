@@ -1,5 +1,5 @@
 export const REVERSE = false
-export const DURATION = 30
+export const DURATION = 20
 export const STYLE = {}
 export const BREAKPOINTS = {
   xs: 0,
@@ -10,8 +10,8 @@ export const BREAKPOINTS = {
 }
 export const VIEWABLE_ITEMS = {
   xs: 2,
-  sm: 2,
-  md: 3,
-  lg: 5,
+  sm: 3,
+  md: 5,
+  lg: 6,
   xl: 6,
 }

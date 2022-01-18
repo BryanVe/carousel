@@ -1,4 +1,4 @@
 export { default as Carousel } from './Carousel'
-export { default as CarouselWithItem } from './CarouselWithItem'
-export { default as CarouselWithoutItem } from './CarouselWithoutItem'
-export { default as CarouselItemContent } from './CarouselItemContent'
+export { default as ItemWithContent } from './ItemWithContent'
+export { default as ItemWithoutContent } from './ItemWithoutContent'
+export { default as ItemContent } from './ItemContent'

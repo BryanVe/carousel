@@ -1,7 +1,7 @@
 import { ReactNode, CSSProperties } from 'react'
 import styled from 'styled-components'
 
-import { CarouselWithItem, CarouselWithoutItem } from '..'
+import { ItemWithContent, ItemWithoutContent } from '..'
 import {
   BREAKPOINTS,
   DURATION,
@@ -9,16 +9,11 @@ import {
   STYLE,
   VIEWABLE_ITEMS,
   getCarouselWidth,
+  getViewableData,
 } from 'utils'
 import { useNodeDimensions } from 'hooks'
 
-interface MainWrapperProps {
-  columns: number
-  viewableItems: ViewableItems
-  breakpoints: Breakpoints
-}
-
-const MainWrapper = styled.div<MainWrapperProps>`
+const MainWrapper = styled.div`
   position: relative;
 
   &:hover .sub-carousel {
@@ -31,57 +26,6 @@ const MainWrapper = styled.div<MainWrapperProps>`
     margin-left: 100vw;
     z-index: 0;
   }
-
-  &
-    .overlapped-carousel
-    > div:nth-last-child(-n
-      + ${({ columns, viewableItems }) => columns - viewableItems.xl}) {
-    display: none;
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.xl}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.lg}px`}) {
-    &
-      .overlapped-carousel
-      > div:nth-last-child(-n
-        + ${({ columns, viewableItems }) => columns - viewableItems.lg}) {
-      display: none;
-    }
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.lg}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.md}px`}) {
-    &
-      .overlapped-carousel
-      > div:nth-last-child(-n
-        + ${({ columns, viewableItems }) => columns - viewableItems.md}) {
-      display: none;
-    }
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.md}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.sm}px`}) {
-    &
-      .overlapped-carousel
-      > div:nth-last-child(-n
-        + ${({ columns, viewableItems }) => columns - viewableItems.sm}) {
-      display: none;
-    }
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.sm}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.xs}px`}) {
-    &
-      .overlapped-carousel
-      > div:nth-last-child(-n
-        + ${({ columns, viewableItems }) => columns - viewableItems.xs}) {
-      display: none;
-    }
-  }
 `
 
 interface StyledWrapperProps {
@@ -92,62 +36,64 @@ interface StyledWrapperProps {
   breakpoints: Breakpoints
 }
 const StyledWrapper = styled.div<StyledWrapperProps>`
-  --width: ${(props) =>
-    `${getCarouselWidth(props.columns, props.viewableItems.xl)}%`};
-  position: relative;
+  --width: ${({ columns, viewableItems }) =>
+    getCarouselWidth({
+      columns,
+      viewableItems: viewableItems.xl,
+    })}%;
   width: var(--width);
+  position: relative;
   display: grid;
   z-index: 300;
-  grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
-  animation: ${(props) =>
-    `${props.reverse ? 'left-to-right' : 'right-to-left'} ${
-      props.duration
-    }s linear infinite`};
+  grid-template-columns: ${({ columns }) => `repeat(${columns}, 1fr)`};
+  animation: ${({ reverse, duration }) =>
+    `carousel-animation ${duration}s linear infinite ${
+      reverse ? 'reverse' : 'normal'
+    }`};
 
-  @keyframes left-to-right {
+  @media (max-width: ${({ breakpoints: { xl } }) =>
+      `${xl}px`}) and (min-width: ${({ breakpoints: { lg } }) => `${lg}px`}) {
+    --width: ${({ columns, viewableItems }) =>
+      getCarouselWidth({
+        columns,
+        viewableItems: viewableItems.lg,
+      })}%;
+  }
+
+  @media (max-width: ${({ breakpoints: { lg } }) =>
+      `${lg}px`}) and (min-width: ${({ breakpoints: { md } }) => `${md}px`}) {
+    --width: ${({ columns, viewableItems }) =>
+      getCarouselWidth({
+        columns,
+        viewableItems: viewableItems.md,
+      })}%;
+  }
+
+  @media (max-width: ${({ breakpoints: { md } }) =>
+      `${md}px`}) and (min-width: ${({ breakpoints: { sm } }) => `${sm}px`}) {
+    --width: ${({ columns, viewableItems }) =>
+      getCarouselWidth({
+        columns,
+        viewableItems: viewableItems.sm,
+      })}%;
+  }
+
+  @media (max-width: ${({ breakpoints: { sm } }) =>
+      `${sm}px`}) and (min-width: ${({ breakpoints: { xs } }) => `${xs}px`}) {
+    --width: ${({ columns, viewableItems }) =>
+      getCarouselWidth({
+        columns,
+        viewableItems: viewableItems.xs,
+      })}%;
+  }
+
+  @keyframes carousel-animation {
     from {
       left: calc(-1 * var(--width));
     }
     to {
       left: 0%;
     }
-  }
-
-  @keyframes right-to-left {
-    from {
-      left: 0%;
-    }
-    to {
-      left: calc(-1 * var(--width));
-    }
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.xl}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.lg}px`}) {
-    --width: ${(props) =>
-      `${getCarouselWidth(props.columns, props.viewableItems.lg)}%`};
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.lg}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.md}px`}) {
-    --width: ${(props) =>
-      `${getCarouselWidth(props.columns, props.viewableItems.md)}%`};
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.md}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.sm}px`}) {
-    --width: ${(props) =>
-      `${getCarouselWidth(props.columns, props.viewableItems.sm)}%`};
-  }
-
-  @media (max-width: ${(props) =>
-      `${props.breakpoints.sm}px`}) and (min-width: ${(props) =>
-      `${props.breakpoints.xs}px`}) {
-    --width: ${(props) =>
-      `${getCarouselWidth(props.columns, props.viewableItems.xs)}%`};
   }
 `
 
@@ -174,13 +120,7 @@ const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
   const { ref: divRef, dimensions: divDimensions } = useNodeDimensions()
 
   return (
-    <MainWrapper
-      ref={(ref) => (divRef.current = ref)}
-      style={style}
-      columns={data.length}
-      viewableItems={viewableItems}
-      breakpoints={breakpoints}
-    >
+    <MainWrapper ref={(ref) => (divRef.current = ref)} style={style}>
       <StyledWrapper
         className='sub-carousel'
         columns={data.length}
@@ -190,7 +130,7 @@ const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
         breakpoints={breakpoints}
       >
         {data.map((item) => (
-          <CarouselWithItem key={item.key}>{render(item)}</CarouselWithItem>
+          <ItemWithContent key={item.key}>{render(item)}</ItemWithContent>
         ))}
       </StyledWrapper>
       <StyledWrapper
@@ -201,13 +141,18 @@ const Carousel = <I extends GenericWithKey>(props: CarouselProps<I>) => {
         viewableItems={viewableItems}
         breakpoints={breakpoints}
       >
-        <CarouselWithoutItem
+        <ItemWithoutContent
           columns={data.length}
           viewableItems={viewableItems}
           breakpoints={breakpoints}
         />
-        {data.map((item) => (
-          <CarouselWithItem key={item.key}>{render(item)}</CarouselWithItem>
+        {getViewableData<I>({
+          data,
+          viewableItems,
+          breakpoints,
+          dimensions: divDimensions,
+        }).map((item) => (
+          <ItemWithContent key={item.key}>{render(item)}</ItemWithContent>
         ))}
       </StyledWrapper>
     </MainWrapper>

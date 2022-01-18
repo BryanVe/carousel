@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const CarouselItemContent = styled.div`
+const ItemContent = styled.div`
   transition: transform 0.1s ease-out;
 
   &:hover {
@@ -8,4 +8,4 @@ const CarouselItemContent = styled.div`
   }
 `
 
-export default CarouselItemContent
+export default ItemContent

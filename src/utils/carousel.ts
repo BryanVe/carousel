@@ -1,35 +1,34 @@
-export const getCarouselWidth: GetCarouselWidth = (columns, viewableItems) =>
-  100 * (columns / viewableItems)
+export const getCarouselWidth: GetCarouselWidth = (args) => {
+  const { columns, viewableItems } = args
+  return 100 * (columns / viewableItems)
+}
 
-export const getViewableData: GetViewableData = (
-  data,
-  currentDimensions,
-  viewableItems,
-  breakpoints
-) => {
-  console.log(currentDimensions.width)
+export const getViewableData: GetViewableData = (args) => {
+  const { data, dimensions, viewableItems, breakpoints } = args
+  let limit: number
 
-  if (currentDimensions.width >= breakpoints.xl)
-    return data.slice(0, viewableItems.xl)
+  if (dimensions.width >= breakpoints.xl) limit = viewableItems.xl
   else if (
-    breakpoints.xl > currentDimensions.width &&
-    currentDimensions.width >= breakpoints.lg
+    breakpoints.xl > dimensions.width &&
+    dimensions.width >= breakpoints.lg
   )
-    return data.slice(0, viewableItems.lg)
+    limit = viewableItems.lg
   else if (
-    breakpoints.lg > currentDimensions.width &&
-    currentDimensions.width >= breakpoints.md
+    breakpoints.lg > dimensions.width &&
+    dimensions.width >= breakpoints.md
   )
-    return data.slice(0, viewableItems.md)
+    limit = viewableItems.md
   else if (
-    breakpoints.md > currentDimensions.width &&
-    currentDimensions.width >= breakpoints.sm
+    breakpoints.md > dimensions.width &&
+    dimensions.width >= breakpoints.sm
   )
-    return data.slice(0, viewableItems.sm)
+    limit = viewableItems.sm
   else if (
-    breakpoints.sm > currentDimensions.width &&
-    currentDimensions.width >= breakpoints.xs
+    breakpoints.sm > dimensions.width &&
+    dimensions.width >= breakpoints.xs
   )
-    return data.slice(0, viewableItems.xs)
-  else return data
+    limit = viewableItems.xs
+  else limit = data.length
+
+  return data.slice(0, limit)
 }

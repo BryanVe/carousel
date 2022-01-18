@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Carousel, CarouselItemContent } from 'components'
+import { Carousel, ItemContent } from 'components'
 
 interface Course extends GenericWithKey {
   name: string
@@ -17,7 +17,7 @@ const courses: Course[] = [
   { key: '8', name: '8', color: '#A1A1AA' },
 ]
 
-const CustomCard = styled(CarouselItemContent)`
+const CustomCard = styled(ItemContent)`
   /* -- my styles -- */
   background-color: ${(props) => props.color};
   height: 10vw;

@@ -16,12 +16,16 @@ type ViewableItems = {
 type Breakpoints = {
   [breakpointID in BreakpointsIDs]: number
 }
+interface GetCarouselWidthArgs {
+  columns: number
+  viewableItems: number
+}
+type GetCarouselWidth = (args: GetCarouselWidthArgs) => number
 
-type GetCarouselWidth = (columns: number, viewableItems: number) => number
-
-type GetViewableData = <T>(
-  data: T[],
-  currentDimensions: Dimensions,
-  viewableItems: ViewableItems,
+interface GetViewableDataArgs {
+  data: T[]
+  dimensions: Dimensions
+  viewableItems: ViewableItems
   breakpoints: Breakpoints
-) => T[]
+}
+type GetViewableData = <T>(args: GetViewableDataArgs) => T[]
